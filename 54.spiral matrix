@@ -1,0 +1,54 @@
+# Given an m x n matrix, return all elements of the matrix in spiral order.
+# Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+# Output: [1,2,3,6,9,8,7,4,5]
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        m = len(matrix)
+        n = len(matrix[0])
+        i, j = 0, 0
+        right, down, left, up = 0, 1, 2, 3
+        direc = right
+        ans = []
+
+        right_wall = n
+        left_wall = -1
+        up_wall = 0
+        down_wall = m
+
+        while len(ans) != m*n:
+            if direc == right:
+                while j < right_wall:
+                    ans.append(matrix[i][j])
+                    j += 1
+                i = i + 1
+                j = j - 1
+                direc = down
+                right_wall -= 1
+            elif direc == down:
+                while i < down_wall:
+                    ans.append(matrix[i][j])
+                    i += 1
+                i = i - 1
+                j = j - 1
+                direc = left
+                down_wall -= 1
+            elif direc == left:
+                while j > left_wall:
+                    ans.append(matrix[i][j])
+                    j -= 1
+                j = j + 1
+                i = i - 1
+                direc = up
+                left_wall += 1
+            elif direc == up:
+                while i > up_wall:
+                    ans.append(matrix[i][j])
+                    i -= 1
+                i += 1
+                j += 1
+                direc = right
+                up_wall += 1
+        
+        return ans       
+# like a slide box, move it end to end, stop by the edge of the matrix and turn right
+# using length of list to detect the matrix has been insert to the ans list
